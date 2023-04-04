@@ -1,6 +1,6 @@
 
 ## Technology
----
+
 ### Main Core Parts
 * Soil Moisture Monitoring System
 * Dashboard
