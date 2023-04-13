@@ -1,4 +1,4 @@
-
+# Design
 ## Technology
 
 ### Main Core Parts
@@ -7,7 +7,7 @@
 
 ---
 #### Soil Moisture Monitoring System
-Soil MOisture Monitoring System is the main component of the project. The main purpose of this system to collect the water status in the soil using soil moisture sensors to automate the irrigation process. The collected data are then sent to the cloud server to further process and analyze the data. The SMM system consists of Soil Moisture Sensor and a Water Pump.
+Soil Moisture Monitoring System is the main component of the project. The main purpose of this system to collect the water status in the soil using soil moisture sensors to automate the irrigation process. The collected data are then sent to the cloud server to further process and analyze the data. The SMM system consists of Soil Moisture Sensor and a Water Pump.
 
 ### Dashboard
 It is the highest level client side component of the project. The Dashboard is a web application which would be hosted on the remote server on AWS. The data collected from the Soil Moisture Monitoring System after processing will be represented visually on the dashboard. The dashboard will also act as a key feedback component.

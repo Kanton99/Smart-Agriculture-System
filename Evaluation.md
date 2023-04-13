@@ -1,5 +1,14 @@
-# Moisture readings
+# Evaluation
+## Moisture readings
+The moisture readings will be eavluated against samples with known leves of moistures to measure the accuracy of the sensor.
+## Photoresistor
+## Actuator
 
+## Network
+## Device
+
+## Power consuption
+Given the low duty cicle of 
 
 
 # Useful Links (to delete before delivary)

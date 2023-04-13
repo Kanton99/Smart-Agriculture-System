@@ -12,5 +12,5 @@
 ## Documents
 
 - [Concept](Concept.md)
-- [Technology](Technology.md)
+- [Design](Design.md)
 - [Evaluation](Evaluation.md)
