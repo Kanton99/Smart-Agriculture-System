@@ -47,10 +47,12 @@ Used to disperse water when the soil moisture level is low.
 ### Development Board
 ESP-32 Development Board
 Used as master node to house the sensors.
+
 ![esp-32](https://user-images.githubusercontent.com/30042823/231897736-633ff93a-e54d-4661-9e94-ae0838a460e3.jpg)
 
 ### Communication
 ##### WiFi LoRa 32 (V3)
+
 ![wifi-lora32](https://user-images.githubusercontent.com/30042823/231898159-398bd807-fc77-4b4f-87c3-9af2a1176db4.jpg)
 
 ---
