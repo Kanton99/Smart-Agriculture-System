@@ -3,12 +3,13 @@
 The moisture readings will be eavluated against samples with known leves of moistures to measure the accuracy of the sensor.
 ## Photoresistor
 ## Actuator
-
+The water pump will be tested on the flow rate it can achieve, so that the device can control how much water is giving to the plants with the best accuracy possible. 
 ## Network
+The
 ## Device
 
 ## Power consuption
-Given the low duty cicle of 
+The system will be plugged in the power outlet of the users house, so power consuption will not be a problem. 
 
 
 # Useful Links (to delete before delivary)
