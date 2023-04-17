@@ -8,7 +8,13 @@ The devince will be used in potted plants, so it can connect to the local WiFi
 
 ## Power consuption
 The system will be plugged in the power outlet of the users house, so power consuption will not be a problem. 
+### Expected power Consumption of individual modules
+|Component      |idle consumption|max consuption|
+|---------------|----------------|------------- |
+|LoRa Wifi      |50mA            |TBD           |
+|Moisture Sensor|<5mA            |TBD           |
+|Water pump     |<5mA            |TBD           |
 
 
-# Useful Links (to delete before delivary)
-[Soil Moistures](https://eos.com/blog/soil-moisture/#:~:text=Ultimately%2C%20the%20soil%20moisture%20effect,between%2020%25%20and%2060%25.)
+<!-- # Useful Links (to delete before delivary)
+[Soil Moistures](https://eos.com/blog/soil-moisture/#:~:text=Ultimately%2C%20the%20soil%20moisture%20effect,between%2020%25%20and%2060%25.) -->
