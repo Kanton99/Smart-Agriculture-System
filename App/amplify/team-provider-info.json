@@ -1,0 +1,15 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-smartagriculturesyst-staging-132246-authRole",
+      "UnauthRoleArn": "arn:aws:iam::023843190784:role/amplify-smartagriculturesyst-staging-132246-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::023843190784:role/amplify-smartagriculturesyst-staging-132246-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-smartagriculturesyst-staging-132246-deployment",
+      "UnauthRoleName": "amplify-smartagriculturesyst-staging-132246-unauthRole",
+      "StackName": "amplify-smartagriculturesyst-staging-132246",
+      "StackId": "arn:aws:cloudformation:eu-central-1:023843190784:stack/amplify-smartagriculturesyst-staging-132246/2790d990-3d01-11ee-ba31-0ae2e978839c",
+      "AmplifyAppId": "d1hlff2ndjhr0f"
+    }
+  }
+}
