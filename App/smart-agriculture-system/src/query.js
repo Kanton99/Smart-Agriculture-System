@@ -5,12 +5,13 @@ import awsconfig from './aws-exports'
 
 async function query(){
     Amplify.configure(awsconfig);
-    const models = await DataStore.query(Readings,(c)=>c.User.contains("Anton"));
+    const models = await DataStore.query(Readings);
     let hums = [];
     for (let i = 0;i<models.length;i++){
-        hums.push(models[i].humidity)
+        hums.push([new Date(models[i].timestamp).getUTCDate(),models[i].humidity])
     }
     console.log(hums);
+    return hums;
 }
 
 export default query
