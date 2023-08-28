@@ -26,25 +26,21 @@ export default function ReadingsCreateForm(props) {
     humidity: "",
     timestamp: "",
     device: "",
-    User: "",
   };
   const [humidity, setHumidity] = React.useState(initialValues.humidity);
   const [timestamp, setTimestamp] = React.useState(initialValues.timestamp);
   const [device, setDevice] = React.useState(initialValues.device);
-  const [User, setUser] = React.useState(initialValues.User);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setHumidity(initialValues.humidity);
     setTimestamp(initialValues.timestamp);
     setDevice(initialValues.device);
-    setUser(initialValues.User);
     setErrors({});
   };
   const validations = {
     humidity: [{ type: "Required" }],
     timestamp: [{ type: "Required" }],
     device: [{ type: "Required" }],
-    User: [{ type: "Email" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -98,7 +94,6 @@ export default function ReadingsCreateForm(props) {
           humidity,
           timestamp,
           device,
-          User,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -160,7 +155,6 @@ export default function ReadingsCreateForm(props) {
               humidity: value,
               timestamp,
               device,
-              User,
             };
             const result = onChange(modelFields);
             value = result?.humidity ?? value;
@@ -189,7 +183,6 @@ export default function ReadingsCreateForm(props) {
               humidity,
               timestamp: value,
               device,
-              User,
             };
             const result = onChange(modelFields);
             value = result?.timestamp ?? value;
@@ -216,7 +209,6 @@ export default function ReadingsCreateForm(props) {
               humidity,
               timestamp,
               device: value,
-              User,
             };
             const result = onChange(modelFields);
             value = result?.device ?? value;
@@ -230,33 +222,6 @@ export default function ReadingsCreateForm(props) {
         errorMessage={errors.device?.errorMessage}
         hasError={errors.device?.hasError}
         {...getOverrideProps(overrides, "device")}
-      ></TextField>
-      <TextField
-        label="User"
-        isRequired={false}
-        isReadOnly={false}
-        value={User}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              humidity,
-              timestamp,
-              device,
-              User: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.User ?? value;
-          }
-          if (errors.User?.hasError) {
-            runValidationTasks("User", value);
-          }
-          setUser(value);
-        }}
-        onBlur={() => runValidationTasks("User", User)}
-        errorMessage={errors.User?.errorMessage}
-        hasError={errors.User?.hasError}
-        {...getOverrideProps(overrides, "User")}
       ></TextField>
       <Flex
         justifyContent="space-between"

@@ -16,13 +16,11 @@ export declare type ReadingsCreateFormInputValues = {
     humidity?: number;
     timestamp?: number;
     device?: string;
-    User?: string;
 };
 export declare type ReadingsCreateFormValidationValues = {
     humidity?: ValidationFunction<number>;
     timestamp?: ValidationFunction<number>;
     device?: ValidationFunction<string>;
-    User?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ReadingsCreateFormOverridesProps = {
@@ -30,7 +28,6 @@ export declare type ReadingsCreateFormOverridesProps = {
     humidity?: PrimitiveOverrideProps<TextFieldProps>;
     timestamp?: PrimitiveOverrideProps<TextFieldProps>;
     device?: PrimitiveOverrideProps<TextFieldProps>;
-    User?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ReadingsCreateFormProps = React.PropsWithChildren<{
     overrides?: ReadingsCreateFormOverridesProps | undefined | null;

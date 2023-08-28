@@ -1,9 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
 
-import {Chart as ChartJS, ArcElement, Tooltip, Legend, LinearScale, PointElement,LineElement} from 'chart.js/auto';
-import {Chart, Doughnut, Line} from "react-chartjs-2";
+import {Chart as ChartJS, LinearScale, PointElement,LineElement} from 'chart.js/auto';
+import {Line} from "react-chartjs-2";
 import query from './query';
+
+import { water } from './IotComms.js';
+import {Amplify, Auth} from 'aws-amplify';
+import awsmobile from './aws-exports'
+import { withAuthenticator } from '@aws-amplify/ui-react';
+
+try{
+  await Amplify.configure(awsmobile)
+}catch(error){
+  console.error(error)
+}
+
+Auth.currentCredentials().then((info) => {
+  const cognitoIdentityId = info.identityId;
+  console.log(cognitoIdentityId)
+});
 
 const time_hum = await query();
 ChartJS.register(LinearScale,LineElement,PointElement);
@@ -20,7 +36,6 @@ export const options = {
     },
   },
 };
-
 let labels = []
 for(let i = 0;i<time_hum.length;i++){
   labels.push(time_hum[i][0])
@@ -44,7 +59,11 @@ export const data = {
 function App() {
 
   return (
+    <>
     <Line options={options} data={data}></Line>
+    <input type='button' value='Water plants' onClick={water}></input>
+    <input type='button' value='Read humidity'></input>
+    </>
   );
 }
 

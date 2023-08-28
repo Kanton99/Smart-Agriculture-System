@@ -6,36 +6,34 @@ import { LazyLoading, LazyLoadingDisabled } from "@aws-amplify/datastore";
 
 
 
-type EagerReadings = {
+type EagerReading = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Readings, 'id'>;
+    identifier: ManagedIdentifier<Reading, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly humidity: number;
   readonly timestamp: number;
   readonly device: string;
-  readonly User?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyReadings = {
+type LazyReading = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Readings, 'id'>;
+    identifier: ManagedIdentifier<Reading, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
   readonly humidity: number;
   readonly timestamp: number;
   readonly device: string;
-  readonly User?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-export declare type Readings = LazyLoading extends LazyLoadingDisabled ? EagerReadings : LazyReadings
+export declare type Reading = LazyLoading extends LazyLoadingDisabled ? EagerReading : LazyReading
 
-export declare const Readings: (new (init: ModelInit<Readings>) => Readings) & {
-  copyOf(source: Readings, mutator: (draft: MutableModel<Readings>) => MutableModel<Readings> | void): Readings;
+export declare const Reading: (new (init: ModelInit<Reading>) => Reading) & {
+  copyOf(source: Reading, mutator: (draft: MutableModel<Reading>) => MutableModel<Reading> | void): Reading;
 }

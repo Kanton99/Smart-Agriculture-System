@@ -1,7 +1,7 @@
 export const schema = {
     "models": {
-        "Readings": {
-            "name": "Readings",
+        "Reading": {
+            "name": "Reading",
             "fields": {
                 "id": {
                     "name": "id",
@@ -29,13 +29,6 @@ export const schema = {
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
-                    "attributes": []
-                },
-                "User": {
-                    "name": "User",
-                    "isArray": false,
-                    "type": "AWSEmail",
-                    "isRequired": false,
                     "attributes": []
                 },
                 "createdAt": {
@@ -78,7 +71,8 @@ export const schema = {
                             {
                                 "allow": "private",
                                 "operations": [
-                                    "update"
+                                    "update",
+                                    "create"
                                 ],
                                 "provider": "iam"
                             }
@@ -91,5 +85,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "9f607ed120468db1639d652ed42ec89c"
+    "version": "5bd4b61dd32381f8384d61d425f9075a"
 };

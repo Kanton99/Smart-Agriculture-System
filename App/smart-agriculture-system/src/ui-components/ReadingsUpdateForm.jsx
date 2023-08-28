@@ -27,12 +27,10 @@ export default function ReadingsUpdateForm(props) {
     humidity: "",
     timestamp: "",
     device: "",
-    User: "",
   };
   const [humidity, setHumidity] = React.useState(initialValues.humidity);
   const [timestamp, setTimestamp] = React.useState(initialValues.timestamp);
   const [device, setDevice] = React.useState(initialValues.device);
-  const [User, setUser] = React.useState(initialValues.User);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = readingsRecord
@@ -41,7 +39,6 @@ export default function ReadingsUpdateForm(props) {
     setHumidity(cleanValues.humidity);
     setTimestamp(cleanValues.timestamp);
     setDevice(cleanValues.device);
-    setUser(cleanValues.User);
     setErrors({});
   };
   const [readingsRecord, setReadingsRecord] = React.useState(readingsModelProp);
@@ -59,7 +56,6 @@ export default function ReadingsUpdateForm(props) {
     humidity: [{ type: "Required" }],
     timestamp: [{ type: "Required" }],
     device: [{ type: "Required" }],
-    User: [{ type: "Email" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -113,7 +109,6 @@ export default function ReadingsUpdateForm(props) {
           humidity,
           timestamp,
           device,
-          User,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -176,7 +171,6 @@ export default function ReadingsUpdateForm(props) {
               humidity: value,
               timestamp,
               device,
-              User,
             };
             const result = onChange(modelFields);
             value = result?.humidity ?? value;
@@ -205,7 +199,6 @@ export default function ReadingsUpdateForm(props) {
               humidity,
               timestamp: value,
               device,
-              User,
             };
             const result = onChange(modelFields);
             value = result?.timestamp ?? value;
@@ -232,7 +225,6 @@ export default function ReadingsUpdateForm(props) {
               humidity,
               timestamp,
               device: value,
-              User,
             };
             const result = onChange(modelFields);
             value = result?.device ?? value;
@@ -246,33 +238,6 @@ export default function ReadingsUpdateForm(props) {
         errorMessage={errors.device?.errorMessage}
         hasError={errors.device?.hasError}
         {...getOverrideProps(overrides, "device")}
-      ></TextField>
-      <TextField
-        label="User"
-        isRequired={false}
-        isReadOnly={false}
-        value={User}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              humidity,
-              timestamp,
-              device,
-              User: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.User ?? value;
-          }
-          if (errors.User?.hasError) {
-            runValidationTasks("User", value);
-          }
-          setUser(value);
-        }}
-        onBlur={() => runValidationTasks("User", User)}
-        errorMessage={errors.User?.errorMessage}
-        hasError={errors.User?.hasError}
-        {...getOverrideProps(overrides, "User")}
       ></TextField>
       <Flex
         justifyContent="space-between"

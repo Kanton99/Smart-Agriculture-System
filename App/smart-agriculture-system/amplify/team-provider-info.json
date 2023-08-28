@@ -13,10 +13,17 @@
     },
     "categories": {
       "auth": {
-        "SmartAgricultureSystem": {}
+        "SmartAgricultureSystem": {},
+        "userPoolGroups": {}
       },
       "api": {
         "SmartAgricultureSystem": {}
+      },
+      "function": {
+        "IotToApp": {
+          "deploymentBucketName": "amplify-smartagriculturesyst-staging-132246-deployment",
+          "s3Key": "amplify-builds/IotToApp-43776a7a646f58306c33-build.zip"
+        }
       }
     }
   }
