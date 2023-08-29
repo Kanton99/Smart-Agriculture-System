@@ -1,7 +1,7 @@
 {
   "version": 1,
   "serviceConfiguration": {
-    "apiName": "SmartAgricultureSystem",
+    "apiName": "smartagriculturesystem",
     "serviceName": "AppSync",
     "defaultAuthType": {
       "mode": "API_KEY",

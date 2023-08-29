@@ -1,29 +1,31 @@
 {
   "staging": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-smartagriculturesyst-staging-132246-authRole",
-      "UnauthRoleArn": "arn:aws:iam::023843190784:role/amplify-smartagriculturesyst-staging-132246-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::023843190784:role/amplify-smartagriculturesyst-staging-132246-authRole",
+      "AuthRoleName": "amplify-smartagriculturesyst-staging-165433-authRole",
+      "UnauthRoleArn": "arn:aws:iam::023843190784:role/amplify-smartagriculturesyst-staging-165433-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::023843190784:role/amplify-smartagriculturesyst-staging-165433-authRole",
       "Region": "eu-central-1",
-      "DeploymentBucketName": "amplify-smartagriculturesyst-staging-132246-deployment",
-      "UnauthRoleName": "amplify-smartagriculturesyst-staging-132246-unauthRole",
-      "StackName": "amplify-smartagriculturesyst-staging-132246",
-      "StackId": "arn:aws:cloudformation:eu-central-1:023843190784:stack/amplify-smartagriculturesyst-staging-132246/2790d990-3d01-11ee-ba31-0ae2e978839c",
-      "AmplifyAppId": "d1hlff2ndjhr0f"
+      "DeploymentBucketName": "amplify-smartagriculturesyst-staging-165433-deployment",
+      "UnauthRoleName": "amplify-smartagriculturesyst-staging-165433-unauthRole",
+      "StackName": "amplify-smartagriculturesyst-staging-165433",
+      "StackId": "arn:aws:cloudformation:eu-central-1:023843190784:stack/amplify-smartagriculturesyst-staging-165433/908e05b0-45c3-11ee-a912-06951eefc6fa",
+      "AmplifyAppId": "dse4j8qjcp47l"
     },
     "categories": {
-      "auth": {
-        "SmartAgricultureSystem": {},
-        "userPoolGroups": {}
-      },
-      "api": {
-        "SmartAgricultureSystem": {}
-      },
       "function": {
         "IotToApp": {
-          "deploymentBucketName": "amplify-smartagriculturesyst-staging-132246-deployment",
-          "s3Key": "amplify-builds/IotToApp-43776a7a646f58306c33-build.zip"
+          "deploymentBucketName": "amplify-smartagriculturesyst-staging-165433-deployment",
+          "s3Key": "amplify-builds/IotToApp-65344b2b6e4b2b547945-build.zip"
         }
+      },
+      "api": {
+        "smartagriculturesystem": {}
+      },
+      "auth": {
+        "smartagriculturesystem": {}
+      },
+      "storage": {
+        "s3smartagriculturesystemstorageuserdevices": {}
       }
     }
   }

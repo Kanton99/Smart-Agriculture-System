@@ -1,5 +1,72 @@
 export const schema = {
     "models": {
+        "UsersDevices": {
+            "name": "UsersDevices",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "devices": {
+                    "name": "devices",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
+                "User": {
+                    "name": "User",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "UsersDevices",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         "Reading": {
             "name": "Reading",
             "fields": {
@@ -14,21 +81,21 @@ export const schema = {
                     "name": "humidity",
                     "isArray": false,
                     "type": "Float",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "timestamp": {
                     "name": "timestamp",
                     "isArray": false,
                     "type": "AWSTimestamp",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "device": {
                     "name": "device",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "createdAt": {
@@ -67,14 +134,6 @@ export const schema = {
                                     "delete",
                                     "read"
                                 ]
-                            },
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "update",
-                                    "create"
-                                ],
-                                "provider": "iam"
                             }
                         ]
                     }
@@ -85,5 +144,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "5bd4b61dd32381f8384d61d425f9075a"
+    "version": "63e2e37c835b058e25fa6f9cf351fef6"
 };

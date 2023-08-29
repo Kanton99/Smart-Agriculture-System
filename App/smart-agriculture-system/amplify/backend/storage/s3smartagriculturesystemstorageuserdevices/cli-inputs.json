@@ -1,0 +1,11 @@
+{
+  "resourceName": "s3smartagriculturesystemstorageuserdevices",
+  "bucketName": "smart-agriculture-system-storage-user-devices",
+  "policyUUID": "23f9de0b",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ]
+}

@@ -1,0 +1,13 @@
+type UsersDevices @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  devices: [String]
+  User: ID!
+}
+
+type Reading @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  humidity: Float
+  timestamp: AWSTimestamp
+  device: String
+}
+ 

@@ -1,8 +1,8 @@
 import {default as fetch, Request} from 'node-fetch'
 
 // Replace these with your own values
-const APP_SYNC_API_URL = "https://uftscl43tfe7vcbrw5j77fq5su.appsync-api.eu-central-1.amazonaws.com/graphql";
-const API_KEY = "da2-n4sob2npjrcp5k7th4px2hvpae";
+const APP_SYNC_API_URL = "https://jkhz5bncizcohg2wh5xwr4ch7e.appsync-api.eu-central-1.amazonaws.com/graphql";
+const API_KEY = "da2-dxzz7tgbrrgjrff6ce7aq7y2hy";
 
 const query = `
             mutation CreateReading($input: CreateReadingInput!) {

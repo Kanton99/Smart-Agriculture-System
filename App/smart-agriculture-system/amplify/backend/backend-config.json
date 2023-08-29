@@ -1,6 +1,6 @@
 {
   "api": {
-    "SmartAgricultureSystem": {
+    "smartagriculturesystem": {
       "dependsOn": [],
       "output": {
         "authConfig": {
@@ -23,7 +23,7 @@
     }
   },
   "auth": {
-    "SmartAgricultureSystem": {
+    "smartagriculturesystem": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -51,22 +51,6 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
-    },
-    "userPoolGroups": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "UserPoolId",
-            "AppClientIDWeb",
-            "AppClientID",
-            "IdentityPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "SmartAgricultureSystem"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Cognito-UserPool-Groups"
     }
   },
   "function": {
@@ -74,6 +58,31 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_IotToApp_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "IotToApp"
+        }
+      ]
+    },
+    "AMPLIFY_function_IotToApp_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "IotToApp"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "s3smartagriculturesystemstorageuserdevices": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
     }
   }
 }

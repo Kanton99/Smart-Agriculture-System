@@ -1,7 +1,0 @@
-type Reading @model @auth(rules: [{allow: public}, {allow: private, operations: [update,create], provider: iam}]) {
-  id: ID!
-  humidity: Float!
-  timestamp: AWSTimestamp!
-  device: String!
-}
- 

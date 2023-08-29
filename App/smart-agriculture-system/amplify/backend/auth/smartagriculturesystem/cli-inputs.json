@@ -2,9 +2,9 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "testAuthIdentityPool",
-    "allowUnauthenticatedIdentities": true,
-    "resourceNameTruncated": "smartaaddc2008",
-    "userPoolName": "SmartAgricultureSystem",
+    "allowUnauthenticatedIdentities": false,
+    "resourceNameTruncated": "smartadad1c40b",
+    "userPoolName": "smartagriculturesystem",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -30,10 +30,10 @@
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [],
     "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "SmartAaddc2008_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "smartadad1c40b_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "addc2008",
-    "resourceName": "SmartAgricultureSystem",
+    "sharedId": "dad1c40b",
+    "resourceName": "smartagriculturesystem",
     "authSelections": "identityPoolAndUserPool",
     "serviceName": "Cognito",
     "usernameAttributes": [
@@ -41,27 +41,11 @@
     ],
     "useDefault": "manual",
     "userPoolGroups": false,
-    "userPoolGroupList": [
-      "IotAcess"
-    ],
+    "userPoolGroupList": [],
     "adminQueries": false,
     "thirdPartyAuth": false,
     "authProviders": [],
     "usernameCaseSensitive": false,
-    "useEnabledMfas": true,
-    "authRoleArn": {
-      "Fn::GetAtt": [
-        "AuthRole",
-        "Arn"
-      ]
-    },
-    "unauthRoleArn": {
-      "Fn::GetAtt": [
-        "UnauthRole",
-        "Arn"
-      ]
-    },
-    "breakCircularDependency": true,
-    "dependsOn": []
+    "useEnabledMfas": true
   }
 }

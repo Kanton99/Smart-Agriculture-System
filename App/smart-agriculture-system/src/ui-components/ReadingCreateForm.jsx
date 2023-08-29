@@ -38,9 +38,9 @@ export default function ReadingCreateForm(props) {
     setErrors({});
   };
   const validations = {
-    humidity: [{ type: "Required" }],
-    timestamp: [{ type: "Required" }],
-    device: [{ type: "Required" }],
+    humidity: [],
+    timestamp: [],
+    device: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -141,7 +141,7 @@ export default function ReadingCreateForm(props) {
     >
       <TextField
         label="Humidity"
-        isRequired={true}
+        isRequired={false}
         isReadOnly={false}
         type="number"
         step="any"
@@ -171,7 +171,7 @@ export default function ReadingCreateForm(props) {
       ></TextField>
       <TextField
         label="Timestamp"
-        isRequired={true}
+        isRequired={false}
         isReadOnly={false}
         type="datetime-local"
         value={timestamp && convertToLocal(convertTimeStampToDate(timestamp))}
@@ -199,7 +199,7 @@ export default function ReadingCreateForm(props) {
       ></TextField>
       <TextField
         label="Device"
-        isRequired={true}
+        isRequired={false}
         isReadOnly={false}
         value={device}
         onChange={(e) => {
