@@ -1,24 +1,25 @@
-APPLICATION=mycode
+APPLICATION=device
 
-BOARD?=native
+BOARD?=esp32-heltec-lora32-v2
 
-BUILD_IN_DOCKER?=True
 
 RIOTBASE?=$(CURDIR)/RIOT
 
+USEMODULE += netdev_default
+USEMODULE += esp_wifi
+USEMODULE += auto_init_gnrc_netif
+
+USEMODULE += gnrc_ipv6_default
+
+USEMODULE += emcute
+USEMODULE += gnrc_icmpv6_echo
 
 USEMODULE += shell
 USEMODULE += shell_cmds_default
 USEMODULE += ps
 
-USEMODULE += netdev_default
-USEMODULE += esp_wifi
-USEMODULE += gnrc_ipv6_default
-CFLAGS+='-DWIFI_SSID=\"WIFI_SSID\"'
-CFLAGS+='-DWIFI_PASS=\"WIFI_PASS\"'
-
-USEMODULE += xtimer
-
+CFLAGS+='-DWIFI_SSID="Vodafone-A63435350"'
+CFLAGS+='-DWIFI_PASS="addu5bmz9zts5bba"'
 
 DEVELHELP ?= 1
 

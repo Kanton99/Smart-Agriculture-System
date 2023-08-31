@@ -1,0 +1,70 @@
+Metadata-Version: 2.1
+Name: mqttgateway
+Version: 1.1.4
+Summary: Framework for MQTT Gateways.
+Home-page: http://mqttgateway.readthedocs.io/en/latest/
+Author: Pier Paolo Taddonio
+Author-email: paolo.taddonio@empiluma.com
+License: MIT
+Keywords: mqtt gateway
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Embedded Systems
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Requires-Dist: paho-mqtt (>=1.4.0)
+
+.. README for mqttgateway
+
+.. old text
+  Full documentation is `here <http://mqttgateway.readthedocs.io/>`_.
+
+######################
+Welcome to mqttgateway
+######################
+
+``mqttgateway`` is a python framework to build consistent gateways to MQTT networks.
+
+What it does:
+=============
+
+* it deals with all the boilerplate code to manage MQTT connections, load configuration
+  and other data files, and create log handlers;
+* it encapsulates the interface in a class that needs only 2 methods, an initialisation method
+  (``__init__``) and a loop method (``loop`` or ``loop_start``);
+* it creates an intuitive messaging abstraction layer between the wrapper and the interface;
+* it isolates the syntax and keywords of the MQTT network from the interface.
+
+Who is it for:
+==============
+
+Developers of MQTT networks in a domestic environment looking to adopt a definitive syntax for
+their MQTT messages and to build gateways with their devices that are not MQTT enabled.
+
+Available interfaces
+====================
+
+Check the existing fully developped interfaces.  Their names usually follows the
+pattern **<interface_name>2mqtt**, for example
+`musiccast2mqtt <https://musiccast2mqtt.readthedocs.io/>`_.
+
+This library comes with a **dummy** interface to test the installation and that can be used
+as a template.
+
+..
+  - **C-Bus**: gateway to the Clipsal-Schneider C-Bus system, via its PCI Serial Interface.
+
+Links
+=====
+
+- **Documentation** on `readthedocs <http://mqttgateway.readthedocs.io/>`_.
+- **Source** on `github <https://github.com/ppt000/mqttgateway>`_.
+- **Distribution** on `pypi <https://pypi.org/project/mqttgateway/>`_.
+
+

@@ -1,0 +1,3 @@
+[console_scripts]
+dummy2mqtt = mqttgateway.dummy_start:main
+
