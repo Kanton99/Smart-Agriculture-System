@@ -284,7 +284,7 @@ static const shell_command_t shell_commands[] = {
     { "sub", "subscribe topic", cmd_sub },
     { "unsub", "unsubscribe from topic", cmd_unsub },
     { "will", "register a last will", cmd_will },
-    {"smaple","sample the humidity from the sersor",cmd_sample},
+    { "sample", "sample the humidity from the sersor", cmd_sample},
     { NULL, NULL, NULL }
 };
 
