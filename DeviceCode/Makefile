@@ -20,6 +20,10 @@ USEMODULE += ps
 
 CFLAGS+='-DWIFI_SSID="Vodafone-A63435350"'
 CFLAGS+='-DWIFI_PASS="addu5bmz9zts5bba"'
+#CONFIG_GNRC_IPV6_NIB_SLAAC=1
+
+# CFLAGS+='-DWIFI_SSID="androidkv"'
+# CFLAGS+='-DWIFI_PASS="bionicle"'
 
 DEVELHELP ?= 1
 
