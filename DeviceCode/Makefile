@@ -1,6 +1,6 @@
 APPLICATION=device
 
-BOARD?=esp32-heltec-lora32-v2
+BOARD?=native
 
 
 RIOTBASE?=$(CURDIR)/RIOT
@@ -17,6 +17,12 @@ USEMODULE += gnrc_icmpv6_echo
 USEMODULE += shell
 USEMODULE += shell_cmds_default
 USEMODULE += ps
+
+USEMODULE += xtimer
+USEMODULE += analog_util
+
+FEATURES_REQUIRED += periph_adc
+
 
 CFLAGS+='-DWIFI_SSID="Vodafone-A63435350"'
 CFLAGS+='-DWIFI_PASS="addu5bmz9zts5bba"'
