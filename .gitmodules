@@ -4,3 +4,6 @@
 [submodule "gateway/paho.mqtt-sn.embedded-c"]
 	path = gateway/paho.mqtt-sn.embedded-c
 	url = https://github.com/eclipse/paho.mqtt-sn.embedded-c
+[submodule "gateway/paho.mqtt-sn-embedded-c"]
+	path = gateway/paho.mqtt-sn-embedded-c
+	url = https://github.com/eclipse/paho.mqtt-sn.embedded-c
