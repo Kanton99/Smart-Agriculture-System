@@ -258,6 +258,25 @@ static int cmd_will(int argc, char **argv)
     return 0;
 }
 
+static int cmd_sample(int argc, char **argv){
+    int sample = 0;
+    int moist = 0;
+
+    sample = adc_sample(ADC_IN_USE, ADC_RES);
+    moist = adc_util_map(sample, ADC_RES, 10, 100);
+    // int a = argc;
+    // char **b = argv;
+    if(sample < 0){
+        printf("ADC_LINE(%u): selected resolution not applicable\n", ADC_IN_USE);
+        return 1;
+    }else{
+        printf("ADC_LINE(%u): raw value: %i, moist: %i\n", ADC_IN_USE, sample, moist);
+        return 0;
+    }
+
+
+}
+
 static const shell_command_t shell_commands[] = {
     { "con", "connect to MQTT broker", cmd_con },
     { "discon", "disconnect from the current broker", cmd_discon },
@@ -265,6 +284,7 @@ static const shell_command_t shell_commands[] = {
     { "sub", "subscribe topic", cmd_sub },
     { "unsub", "unsubscribe from topic", cmd_unsub },
     { "will", "register a last will", cmd_will },
+    {"smaple","sample the humidity from the sersor",cmd_sample},
     { NULL, NULL, NULL }
 };
 
@@ -281,28 +301,28 @@ int main(void)
         printf("Successfully initialized ADC_LINE(%u)\n", ADC_IN_USE);
     }
 
-    xtimer_ticks32_t last = xtimer_now();
-    int sample = 0;
-    int moist = 0;
+    // xtimer_ticks32_t last = xtimer_now();
+    // int sample = 0;
+    // int moist = 0;
 
     /*Sample continously the ADC line*/
-    while(1){
-        sample = adc_sample(ADC_IN_USE, ADC_RES);
-        moist = adc_util_map(sample, ADC_RES, 10, 100);
+    // while(1){
+    //     sample = adc_sample(ADC_IN_USE, ADC_RES);
+    //     moist = adc_util_map(sample, ADC_RES, 10, 100);
 
-        if(sample < 0){
-            printf("ADC_LINE(%u): selected resolution not applicable\n", ADC_IN_USE);
-        }else{
-            printf("ADC_LINE(%u): raw value: %i, moist: %i\n", ADC_IN_USE, sample, moist);
-        }
-        xtimer_periodic_wakeup(&last, DELAY);
-    }
+    //     if(sample < 0){
+    //         printf("ADC_LINE(%u): selected resolution not applicable\n", ADC_IN_USE);
+    //     }else{
+    //         printf("ADC_LINE(%u): raw value: %i, moist: %i\n", ADC_IN_USE, sample, moist);
+    //     }
+    //     xtimer_periodic_wakeup(&last, DELAY);
+    // }
 
 
 
-    puts("MQTT-SN example application\n");
-    puts("Type 'help' to get started. Have a look at the README.md for more"
-         "information.");
+    // puts("MQTT-SN example application\n");
+    // puts("Type 'help' to get started. Have a look at the README.md for more"
+    //      "information.");
 
     /* the main thread needs a msg queue to be able to run `ping`*/
     msg_init_queue(queue, ARRAY_SIZE(queue));
