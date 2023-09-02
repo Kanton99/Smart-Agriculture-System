@@ -20,6 +20,7 @@ USEMODULE += ps
 
 USEMODULE += xtimer
 USEMODULE += analog_util
+USEMODULE += timex
 
 FEATURES_REQUIRED += periph_adc
 

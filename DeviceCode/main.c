@@ -1,24 +1,3 @@
-/*
- * Copyright (C) 2015 Freie Universität Berlin
- *
- * This file is subject to the terms and conditions of the GNU Lesser
- * General Public License v2.1. See the file LICENSE in the top level
- * directory for more details.
- */
-
-/**
- * @ingroup     examples
- * @{
- *
- * @file
- * @brief       Example application for demonstrating RIOT's MQTT-SN library
- *              emCute
- *
- * @author      Hauke Petersen <hauke.petersen@fu-berlin.de>
- *
- * @}
- */
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -35,7 +14,7 @@
 
 
 #ifndef EMCUTE_ID
-#define EMCUTE_ID           ("gertrud")
+#define EMCUTE_ID           ("device0")
 #endif
 #define EMCUTE_PRIO         (THREAD_PRIORITY_MAIN - 1)
 
@@ -65,7 +44,7 @@ static void on_pub(const emcute_topic_t *topic, void *data, size_t len)
     char *in = (char *)data;
 
     printf("### got publication for topic '%s' [%i] ###\n",
-           topic->name, (int)topic->id);
+        topic->name, (int)topic->id);
     for (size_t i = 0; i < len; i++) {
         printf("%c", in[i]);
     }
@@ -173,6 +152,42 @@ static int cmd_pub(int argc, char **argv)
             (int)strlen(argv[2]), t.name, t.id);
 
     return 0;
+}
+/*example msg:
+{
+    "humidity":10.0,
+    "device":"device0"
+}*/
+static int pub_humidity(float humidity){
+    emcute_topic_t t;
+    unsigned flags = EMCUTE_QOS_0;
+
+    //make the topic
+    //sas/device0/readings
+    char* topic = [24]
+    snprintf(topic,sizeof(topic),"sas/%s/readings",EMCUTE_ID)
+    t.name = topic
+    if (emcute_reg(&t) != EMCUTE_OK) {
+        puts("error: unable to obtain topic ID");
+        return 1;
+    }
+
+    //make message
+    char* message = [40]
+    snprintf(message,sizeof(message),'{"humidity":%f,"device":%s}',humidity,EMCUTE_ID)
+
+    /*publish data */
+    if (emcute_pub(&t, message, strlen(message), flags) != EMCUTE_OK) {
+        printf("error: unable to publish data to topic '%s [%i]'\n",
+                t.name, (int)t.id);
+        return 1;
+    }
+
+    printf("Published %i bytes to topic '%s [%i]'\n",
+            (int)strlen(message), t.name, t.id);
+
+    return 0;
+
 }
 
 static int cmd_sub(int argc, char **argv)
