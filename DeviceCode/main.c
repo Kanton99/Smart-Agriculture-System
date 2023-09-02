@@ -288,6 +288,25 @@ static const shell_command_t shell_commands[] = {
     { NULL, NULL, NULL }
 };
 
+double calculateMoisture(double rawval){
+    double value = rawval;
+    double min_value = 1020; // Minimum value (0%)
+    double max_value = 2130; // Maximum value (100%)
+
+    // calculate the percentage using linear interpolation
+    double percentage = 100.0 * ((max_value - value) / (max_value - min_value));
+
+    // ensure the percentage is within the valid range
+    if(percentage < 0.0){
+        percentage = 0.0;
+    } else if(percentage > 100.0){
+        percentage = 100.0;
+    }
+
+    printf("Percentage: %.2f%%\n",percentage);
+    return percentage;
+}
+
 int main(void)
 {   
 
@@ -301,22 +320,22 @@ int main(void)
         printf("Successfully initialized ADC_LINE(%u)\n", ADC_IN_USE);
     }
 
-    // xtimer_ticks32_t last = xtimer_now();
-    // int sample = 0;
-    // int moist = 0;
+    xtimer_ticks32_t last = xtimer_now();
+    int sample = 0;
 
     /*Sample continously the ADC line*/
-    // while(1){
-    //     sample = adc_sample(ADC_IN_USE, ADC_RES);
-    //     moist = adc_util_map(sample, ADC_RES, 10, 100);
+    while(1){
+        sample = adc_sample(ADC_IN_USE, ADC_RES);
 
-    //     if(sample < 0){
-    //         printf("ADC_LINE(%u): selected resolution not applicable\n", ADC_IN_USE);
-    //     }else{
-    //         printf("ADC_LINE(%u): raw value: %i, moist: %i\n", ADC_IN_USE, sample, moist);
-    //     }
-    //     xtimer_periodic_wakeup(&last, DELAY);
-    // }
+        if(sample < 0){
+            printf("ADC_LINE(%u): selected resolution not applicable\n", ADC_IN_USE);
+        }else{
+            printf("ADC_LINE(%u): raw value: %i\n", ADC_IN_USE, sample);
+            calculateMoisture(sample);
+        }
+        xtimer_periodic_wakeup(&last, DELAY);
+    }
+
 
 
 
