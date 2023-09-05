@@ -19,14 +19,13 @@ double calculateMoisture(double rawval){
     return percentage;
 }
 
-float sample_moisture(adc_t line, adc_res_t res){
+double sample_moisture(adc_t line, adc_res_t res){
     int32_t sample = adc_sample(line, res);
-    double moisture;
     if(sample < 0){
         printf("ADC_LINE(%u): selected resolution not applicable\n", line);
         return -1;
     }else{
-        printf("ADC_LINE(%u): raw value: %i\n", line, sample);
+        printf("ADC_LINE(%u): raw value: %li\n", line, sample);
         return calculateMoisture(sample);
     }
 }

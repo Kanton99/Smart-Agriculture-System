@@ -6,4 +6,6 @@ int pumpWater(gpio_t line, uint32_t seconds){
     xtimer_sleep(seconds);
 
     gpio_clear(line);
+
+    return 0;
 }

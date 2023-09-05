@@ -28,7 +28,7 @@
 #define ADC_RES             ADC_RES_10BIT
 #define DELAY               (100LU * US_PER_MS) /*100ms*/
 
-#define GPIO_LINE           GPIO_PIN(0,37)
+#define GPIO_LINE           GPIO_PIN(0,22)
 
 
 static char stack[THREAD_STACKSIZE_DEFAULT];
@@ -165,25 +165,25 @@ static int cmd_pub(int argc, char **argv)
         "device":"device0"
     }       
 */
-static int pub_humidity(float humidity){
+/*static int pub_humidity(float humidity){
     emcute_topic_t t;
     unsigned flags = EMCUTE_QOS_0;
 
     //make the topic
     //sas/device0/readings
-    char* topic = [24]
-    snprintf(topic,sizeof(topic),"sas/%s/readings",EMCUTE_ID)
-    t.name = topic
+    char topic[24];
+    snprintf(topic,sizeof(topic),"sas/%s/readings",EMCUTE_ID);
+    t.name = topic;
     if (emcute_reg(&t) != EMCUTE_OK) {
         puts("error: unable to obtain topic ID");
         return 1;
     }
 
     //make message
-    char* message = [40]
-    snprintf(message,sizeof(message),'{"humidity":%f,"device":%s}',humidity,EMCUTE_ID)
+    char message[80];
+    snprintf(message,sizeof(message),"{\"humidity\":%f,\"device\":%s}",humidity,EMCUTE_ID);
 
-    /*publish data */
+    //publish data
     if (emcute_pub(&t, message, strlen(message), flags) != EMCUTE_OK) {
         printf("error: unable to publish data to topic '%s [%i]'\n",
                 t.name, (int)t.id);
@@ -196,7 +196,7 @@ static int pub_humidity(float humidity){
     return 0;
 
 }
-
+*/
 static int cmd_sub(int argc, char **argv)
 {
     unsigned flags = EMCUTE_QOS_0;
@@ -281,27 +281,31 @@ static int cmd_will(int argc, char **argv)
 }
 
 static int cmd_sample(int argc, char **argv){
-    int sample = 0;
-    int moist = 0;
+    // int sample = 0;
+    // int moist = 0;
 
-    sample = adc_sample(ADC_IN_USE, ADC_RES);
-    moist = adc_util_map(sample, ADC_RES, 10, 100);
-    // int a = argc;
-    // char **b = argv;
-    if(sample < 0){
-        printf("ADC_LINE(%u): selected resolution not applicable\n", ADC_IN_USE);
-        return 1;
-    }else{
-        printf("ADC_LINE(%u): raw value: %i, moist: %i\n", ADC_IN_USE, sample, moist);
-        return 0;
-    }
+    // sample = adc_sample(ADC_IN_USE, ADC_RES);
+    // moist = adc_util_map(sample, ADC_RES, 10, 100);
+    // // int a = argc;
+    // // char **b = argv;
+    // if(sample < 0){
+    //     printf("ADC_LINE(%u): selected resolution not applicable\n", ADC_IN_USE);
+    //     return 1;
+    // }else{
+    //     printf("ADC_LINE(%u): raw value: %i, moist: %i\n", ADC_IN_USE, sample, moist);
+    //     return 0;
+    // }
 
+    sample_moisture(ADC_IN_USE,ADC_RES);
+
+    //printf("Sampled moisture: %f",moisture);
+    return 0;
 
 }
 
 static int cmd_water(int argc, char **argv){
     uint32_t time;
-    if(argc>1)time=argv[1];
+    if(argc>1)time=atoi(argv[1]);
     else time = 5;
 
     pumpWater(GPIO_LINE,time);
@@ -357,7 +361,7 @@ int main(void)
     if(gpio_init(GPIO_LINE,GPIO_OUT) == 0){
         printf("GPIO line %u initialization succesful\n",GPIO_LINE);
     }else{
-        printf("Error initializing %u GPIO line",GPIO_LINE);
+        printf("Error initializing %u GPIO line\n",GPIO_LINE);
         return 1;
     }
     // xtimer_ticks32_t last = xtimer_now();
