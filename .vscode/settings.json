@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "system_error": "c"
+        "*.hs": "haskell",
+        "system_error": "c",
+        "xtimer.h": "c",
+        "adc.h": "c"
     }
 }

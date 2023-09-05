@@ -12,6 +12,9 @@
 #include "periph/gpio.h"
 #include "analog_util.h"
 
+#include "humidity_sens.h"
+#include "pump_controls.h"
+
 
 #ifndef EMCUTE_ID
 #define EMCUTE_ID           ("device0")
@@ -24,6 +27,8 @@
 #define ADC_IN_USE          ADC_LINE(0)
 #define ADC_RES             ADC_RES_10BIT
 #define DELAY               (100LU * US_PER_MS) /*100ms*/
+
+#define GPIO_LINE           GPIO_PIN(0,37)
 
 
 static char stack[THREAD_STACKSIZE_DEFAULT];
@@ -153,11 +158,13 @@ static int cmd_pub(int argc, char **argv)
 
     return 0;
 }
+
 /*example msg:
-{
-    "humidity":10.0,
-    "device":"device0"
-}*/
+    {
+        "humidity":10.0,
+        "device":"device0"
+    }       
+*/
 static int pub_humidity(float humidity){
     emcute_topic_t t;
     unsigned flags = EMCUTE_QOS_0;
@@ -292,6 +299,15 @@ static int cmd_sample(int argc, char **argv){
 
 }
 
+static int cmd_water(int argc, char **argv){
+    uint32_t time;
+    if(argc>1)time=argv[1];
+    else time = 5;
+
+    pumpWater(GPIO_LINE,time);
+    return 0;
+}
+
 static const shell_command_t shell_commands[] = {
     { "con", "connect to MQTT broker", cmd_con },
     { "discon", "disconnect from the current broker", cmd_discon },
@@ -300,9 +316,11 @@ static const shell_command_t shell_commands[] = {
     { "unsub", "unsubscribe from topic", cmd_unsub },
     { "will", "register a last will", cmd_will },
     { "sample", "sample the humidity from the sersor", cmd_sample},
+    { "water", "pump water", cmd_water},
     { NULL, NULL, NULL }
 };
 
+/*
 double calculateMoisture(double rawval){
     double value = rawval;
     double min_value = 1020; // Minimum value (0%)
@@ -321,6 +339,7 @@ double calculateMoisture(double rawval){
     printf("Percentage: %.2f%%\n",percentage);
     return percentage;
 }
+*/
 
 int main(void)
 {   
@@ -335,10 +354,17 @@ int main(void)
         printf("Successfully initialized ADC_LINE(%u)\n", ADC_IN_USE);
     }
 
-    xtimer_ticks32_t last = xtimer_now();
-    int sample = 0;
+    if(gpio_init(GPIO_LINE,GPIO_OUT) == 0){
+        printf("GPIO line %u initialization succesful\n",GPIO_LINE);
+    }else{
+        printf("Error initializing %u GPIO line",GPIO_LINE);
+        return 1;
+    }
+    // xtimer_ticks32_t last = xtimer_now();
+    // int sample = 0;
 
     /*Sample continously the ADC line*/
+    /*
     while(1){
         sample = adc_sample(ADC_IN_USE, ADC_RES);
 
@@ -350,13 +376,11 @@ int main(void)
         }
         xtimer_periodic_wakeup(&last, DELAY);
     }
+    */
 
-
-
-
-    // puts("MQTT-SN example application\n");
-    // puts("Type 'help' to get started. Have a look at the README.md for more"
-    //      "information.");
+    //puts("MQTT-SN example application\n");
+    puts("Type 'help' to get started. Have a look at the README.md for more"
+         "information.\n");
 
     /* the main thread needs a msg queue to be able to run `ping`*/
     msg_init_queue(queue, ARRAY_SIZE(queue));

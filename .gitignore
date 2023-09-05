@@ -58,6 +58,6 @@ dkms.conf
 /DeviceCode/bin
 
 # End of https://www.toptal.com/developers/gitignore/api/c
-gateway/Gateway/rbmutex.key
 .gitignore
-gateway/Gateway/ringbuffer.key
+gateway/ringbuffer.key
+gateway/rbmutex.key
