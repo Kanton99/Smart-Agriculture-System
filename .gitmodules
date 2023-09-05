@@ -1,11 +1,5 @@
-[submodule "Device code/RIOT"]
-	path = Device code/RIOT
-	url = https://github.com/RIOT-OS/RIOT.git
 [submodule "gateway/paho.mqtt-sn.embedded-c"]
 	path = gateway/paho.mqtt-sn.embedded-c
-	url = https://github.com/eclipse/paho.mqtt-sn.embedded-c
-[submodule "gateway/paho.mqtt-sn-embedded-c"]
-	path = gateway/paho.mqtt-sn-embedded-c
 	url = https://github.com/eclipse/paho.mqtt-sn.embedded-c
 [submodule "DeviceCode/RIOT"]
 	path = DeviceCode/RIOT
