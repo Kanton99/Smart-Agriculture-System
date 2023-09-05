@@ -54,6 +54,7 @@ static void on_pub(const emcute_topic_t *topic, void *data, size_t len)
         printf("%c", in[i]);
     }
     puts("");
+
 }
 
 static unsigned get_qos(const char *str)
@@ -165,7 +166,7 @@ static int cmd_pub(int argc, char **argv)
         "device":"device0"
     }       
 */
-/*static int pub_humidity(float humidity){
+static int pub_humidity(float humidity){
     emcute_topic_t t;
     unsigned flags = EMCUTE_QOS_0;
 
@@ -194,9 +195,37 @@ static int cmd_pub(int argc, char **argv)
             (int)strlen(message), t.name, t.id);
 
     return 0;
-
 }
-*/
+
+
+static void on_water(const emcute_topic_t *topic, void *data, size_t len){
+    pumpWater(GPIO_LINE,5);
+}
+
+static void on_read(const emcute_topic_t *topic, void *data, size_t len){
+    double sample = sample_moisture(ADC_IN_USE,ADC_RES);
+    pub_humidity(sample);
+}
+
+static int sub(char *topic,int flags, int func){
+    unsigned i = 0;
+    for (; (i < NUMOFSUBS) && (subscriptions[i].topic.id != 0); i++) {}
+    if (i == NUMOFSUBS) {
+        puts("error: no memory to store new subscriptions");
+        return 1;
+    }
+
+    subscriptions[i].cb = func==0 ? on_pub:(func == 1?on_read:on_water);
+    strcpy(topics[i], topic);
+    subscriptions[i].topic.name = topics[i];
+    if (emcute_sub(&subscriptions[i], flags) != EMCUTE_OK) {
+        printf("error: unable to subscribe to %s\n", topic);
+        return 1;
+    }
+
+    printf("Now subscribed to %s\n", topic);
+    return 0;
+}
 static int cmd_sub(int argc, char **argv)
 {
     unsigned flags = EMCUTE_QOS_0;
@@ -214,23 +243,24 @@ static int cmd_sub(int argc, char **argv)
         flags |= get_qos(argv[2]);
     }
 
+    sub(argv[1],flags,0);
     /* find empty subscription slot */
-    unsigned i = 0;
-    for (; (i < NUMOFSUBS) && (subscriptions[i].topic.id != 0); i++) {}
-    if (i == NUMOFSUBS) {
-        puts("error: no memory to store new subscriptions");
-        return 1;
-    }
+    // unsigned i = 0;
+    // for (; (i < NUMOFSUBS) && (subscriptions[i].topic.id != 0); i++) {}
+    // if (i == NUMOFSUBS) {
+    //     puts("error: no memory to store new subscriptions");
+    //     return 1;
+    // }
 
-    subscriptions[i].cb = on_pub;
-    strcpy(topics[i], argv[1]);
-    subscriptions[i].topic.name = topics[i];
-    if (emcute_sub(&subscriptions[i], flags) != EMCUTE_OK) {
-        printf("error: unable to subscribe to %s\n", argv[1]);
-        return 1;
-    }
+    // subscriptions[i].cb = on_pub;
+    // strcpy(topics[i], argv[1]);
+    // subscriptions[i].topic.name = topics[i];
+    // if (emcute_sub(&subscriptions[i], flags) != EMCUTE_OK) {
+    //     printf("error: unable to subscribe to %s\n", argv[1]);
+    //     return 1;
+    // }
 
-    printf("Now subscribed to %s\n", argv[1]);
+    // printf("Now subscribed to %s\n", argv[1]);
     return 0;
 }
 
@@ -349,7 +379,6 @@ int main(void)
 {   
 
     /*test analog sensor data collection section*/
-
     printf("\n Smart Home Irrigation System \n Measure the moisture level of the soil\n");
     if(adc_init(ADC_IN_USE) < 0){
         printf("Initialization of ADC_LINE(%u) failed\n", ADC_IN_USE);
@@ -381,6 +410,21 @@ int main(void)
         xtimer_periodic_wakeup(&last, DELAY);
     }
     */
+
+    /*TODO periodic sample*/
+
+    /*TODO response to*/
+
+    /*Sub to read and water topic*/
+    const int topSize = 3+sizeof(EMCUTE_ID)+1+4+2;
+    char readTopic[topSize];
+    snprintf(readTopic,sizeof(readTopic),"sas/%s/read",EMCUTE_ID);
+    sub(readTopic,EMCUTE_QOS_0,1);
+
+    const int topSize2 = 3+sizeof(EMCUTE_ID)+1+5+2;
+    char waterTopic[topSize2];
+    snprintf(readTopic,sizeof(readTopic),"sas/%s/water",EMCUTE_ID);
+    sub(waterTopic,EMCUTE_QOS_0,2);
 
     //puts("MQTT-SN example application\n");
     puts("Type 'help' to get started. Have a look at the README.md for more"
