@@ -17,16 +17,19 @@ export async function query(){
     let readings = {}
     for( let i = 0;i<devices.length;i++){
         const models = await DataStore.query(Reading,(c)=>c.device.eq(devices[i]),{sort:(s)=>s.timestamp("ASCENDING")});
+        console.log(models);
         readings[devices[i]] = new Array()
-        for (let j = 0;j<models.length;j++){
+        for (let j = 0;j<models.length && j<30;j++){
             let today = Date.now();
-            let readDay = new Date(models[i].timestamp);
+            let readDay = new Date(models[j].timestamp);
             let diff = Math.floor((today-readDay)/_MS_PER_DAY)
             readings[devices[i]].push({
-                "time":models[i].timestamp,
-                "humidity":models[i].humidity
+                "time":models[j].timestamp,
+                // "time":diff,
+                "humidity":models[j].humidity
             })
         }
+        console.log(readings)
     }
     return readings;
 }
