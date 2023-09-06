@@ -12,6 +12,14 @@
 #include "periph/gpio.h"
 #include "analog_util.h"
 
+#include "net/gnrc/netif.h"
+#include "net/gnrc/netapi.h"
+// #include "net/gnrc/ipv6/netif.h"
+// #include "net/gnrc/wifi.h"
+#include "net/netif.h"
+#include "net/wifi.h"
+#include "esp_wifi.h"
+
 #include "humidity_sens.h"
 #include "pump_controls.h"
 
@@ -36,13 +44,6 @@ static msg_t queue[8];
 
 static emcute_sub_t subscriptions[NUMOFSUBS];
 static char topics[NUMOFSUBS][TOPIC_MAXLEN];
-
-static void *emcute_thread(void *arg)
-{
-    (void)arg;
-    emcute_run(CONFIG_EMCUTE_DEFAULT_PORT, EMCUTE_ID);
-    return NULL;    /* should never be reached */
-}
 
 static void on_pub(const emcute_topic_t *topic, void *data, size_t len)
 {
@@ -103,6 +104,32 @@ static int cmd_con(int argc, char **argv)
            argv[1], (int)gw.port);
 
     return 0;
+}
+
+static int con(char *ipv6,int port){
+    
+   
+    sock_udp_ep_t gw = { .family = AF_INET6, .port = CONFIG_EMCUTE_DEFAULT_PORT };
+    
+
+    // parse address 
+    if (ipv6_addr_from_str((ipv6_addr_t *)&gw.addr.ipv6, ipv6) == NULL) {
+        printf("error parsing IPv6 address\n");
+        return 1;
+    }
+    
+    gw.port = port;
+    puts("test1");
+    if (emcute_con(&gw, true, NULL, NULL, 0, 0) != EMCUTE_OK) {
+        printf("error: unable to connect to [%s]:%i\n",ipv6, (int)gw.port);
+        return 1;
+    }
+    puts("test2");
+    printf("Successfully connected to gateway at [%s]:%i\n",
+           ipv6, (int)gw.port);
+
+    return 0;
+
 }
 
 static int cmd_discon(int argc, char **argv)
@@ -311,26 +338,8 @@ static int cmd_will(int argc, char **argv)
 }
 
 static int cmd_sample(int argc, char **argv){
-    // int sample = 0;
-    // int moist = 0;
-
-    // sample = adc_sample(ADC_IN_USE, ADC_RES);
-    // moist = adc_util_map(sample, ADC_RES, 10, 100);
-    // // int a = argc;
-    // // char **b = argv;
-    // if(sample < 0){
-    //     printf("ADC_LINE(%u): selected resolution not applicable\n", ADC_IN_USE);
-    //     return 1;
-    // }else{
-    //     printf("ADC_LINE(%u): raw value: %i, moist: %i\n", ADC_IN_USE, sample, moist);
-    //     return 0;
-    // }
-
     sample_moisture(ADC_IN_USE,ADC_RES);
-
-    //printf("Sampled moisture: %f",moisture);
     return 0;
-
 }
 
 static int cmd_water(int argc, char **argv){
@@ -375,6 +384,14 @@ double calculateMoisture(double rawval){
 }
 */
 
+
+static void *emcute_thread(void *arg)
+{
+    (void)arg;
+    emcute_run(CONFIG_EMCUTE_DEFAULT_PORT, EMCUTE_ID);
+    return NULL;    /* should never be reached */
+}
+
 int main(void)
 {   
 
@@ -394,38 +411,25 @@ int main(void)
         return 1;
     }
     gpio_set(GPIO_LINE);
-    // xtimer_ticks32_t last = xtimer_now();
-    // int sample = 0;
-
-    /*Sample continously the ADC line*/
-    /*
-    while(1){
-        sample = adc_sample(ADC_IN_USE, ADC_RES);
-
-        if(sample < 0){
-            printf("ADC_LINE(%u): selected resolution not applicable\n", ADC_IN_USE);
-        }else{
-            printf("ADC_LINE(%u): raw value: %i\n", ADC_IN_USE, sample);
-            calculateMoisture(sample);
-        }
-        xtimer_periodic_wakeup(&last, DELAY);
-    }
-    */
-
     /*TODO periodic sample*/
 
-    /*TODO response to*/
+    // Wait for WiFi connection
+    while (esp_wifi_connect() != ESP_OK) {
+        xtimer_sleep(1); // Sleep for 1 second before retrying
+    }
 
-    /*Sub to read and water topic*/
-    // const int topSize = 3+sizeof(EMCUTE_ID)+1+4+2;
-    // char readTopic[topSize];
-    // snprintf(readTopic,sizeof(readTopic),"sas/%s/read",EMCUTE_ID);
-    // sub(readTopic,EMCUTE_QOS_0,1);
+    // Initialize the network stack
+    gnrc_netif_t *netif =gnrc_netif_iter(NULL);
 
-    // const int topSize2 = 3+sizeof(EMCUTE_ID)+1+5+2;
-    // char waterTopic[topSize2];
-    // snprintf(readTopic,sizeof(readTopic),"sas/%s/water",EMCUTE_ID);
-    // sub(waterTopic,EMCUTE_QOS_0,2);
+    ipv6_addr_t ipv6_addr;
+    ipv6_addr_from_str(&ipv6_addr,"fec0:affe::99");
+    puts("test");
+    uint8_t prefix_len = 64;
+    if(gnrc_netif_ipv6_addr_add(netif,&ipv6_addr,prefix_len,GNRC_NETIF_IPV6_ADDRS_FLAGS_STATE_VALID)>0){
+        puts("inet interface set");
+    }
+
+
 
     //puts("MQTT-SN example application\n");
     puts("Type 'help' to get started. Have a look at the README.md for more"
@@ -440,6 +444,20 @@ int main(void)
     /* start the emcute thread */
     thread_create(stack, sizeof(stack), EMCUTE_PRIO, 0,
                   emcute_thread, NULL, "emcute");
+
+    xtimer_sleep(1);
+    //connect to broker
+    con("fec0:affe::1",10000);
+    /*Sub to read and water topic*/
+    const int topSize = 3+sizeof(EMCUTE_ID)+1+4+2;
+    char readTopic[topSize];
+    snprintf(readTopic,sizeof(readTopic),"sas/%s/read",EMCUTE_ID);
+    sub(readTopic,EMCUTE_QOS_0,1);
+
+    const int topSize2 = 3+sizeof(EMCUTE_ID)+1+5+2;
+    char waterTopic[topSize2];
+    snprintf(waterTopic,sizeof(waterTopic),"sas/%s/water",EMCUTE_ID);
+    sub(waterTopic,EMCUTE_QOS_0,2);
 
     /* start shell */
     char line_buf[SHELL_DEFAULT_BUFSIZE];

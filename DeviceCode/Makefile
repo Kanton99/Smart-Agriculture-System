@@ -5,11 +5,13 @@ BOARD?=native
 
 RIOTBASE?=$(CURDIR)/RIOT
 
-USEMODULE += netdev_default
 USEMODULE += esp_wifi
+#USEMODULE += esp_wifi_sta
 USEMODULE += auto_init_gnrc_netif
-
+USEMODULE += gnrc_ipv6_router_default
+#USEMODULE += gnrc_netif_default
 USEMODULE += gnrc_ipv6_default
+
 
 USEMODULE += emcute
 USEMODULE += gnrc_icmpv6_echo

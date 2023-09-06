@@ -3,6 +3,8 @@
         "*.hs": "haskell",
         "system_error": "c",
         "xtimer.h": "c",
-        "adc.h": "c"
+        "adc.h": "c",
+        "stdlib.h": "c",
+        "auto_init_utils.h": "c"
     }
 }

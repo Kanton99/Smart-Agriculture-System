@@ -3,7 +3,7 @@ import {AWSIoTProvider} from "@aws-amplify/pubsub/lib/Providers"
 import {CONNECTION_STATE_CHANGE, ConnectionState} from '@aws-amplify/pubsub'
 import { Hub } from 'aws-amplify'
 
-let device = 0;
+let device ="device0";
 //Amplify.configure(awsmobile)
 export function iotCommSetup(){
 try{
