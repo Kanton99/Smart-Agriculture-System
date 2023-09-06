@@ -5,9 +5,11 @@ export async function registerDevice(){
     let device = prompt("Enter device id","")
 
     if(device != null){
-        devices.push(device)
-        localStorage.setItem("devices",JSON.stringify({"devices":devices}))
-        await genChart()
-        window.location.reload()
+        if(!(devices.includes(device))){
+            devices.push(device)
+            localStorage.setItem("devices",JSON.stringify({"devices":devices}))
+            await genChart()
+            window.location.reload()
+        }
     }
 }

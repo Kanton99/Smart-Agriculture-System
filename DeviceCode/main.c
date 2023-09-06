@@ -169,6 +169,7 @@ static int cmd_pub(int argc, char **argv)
 
     /* step 1: get topic id */
     t.name = argv[1];
+    printf("%s\n",t.name);
     if (emcute_reg(&t) != EMCUTE_OK) {
         puts("error: unable to obtain topic ID");
         return 1;
@@ -187,6 +188,7 @@ static int cmd_pub(int argc, char **argv)
     return 0;
 }
 
+char topic[sizeof(EMCUTE_ID)+14];
 /*example msg:
     {
         "humidity":10.0,
@@ -196,20 +198,38 @@ static int cmd_pub(int argc, char **argv)
 static int pub_humidity(float humidity){
     emcute_topic_t t;
     unsigned flags = EMCUTE_QOS_0;
-
     //make the topic
     //sas/device0/readings
-    char topic[24];
     snprintf(topic,sizeof(topic),"sas/%s/readings",EMCUTE_ID);
     t.name = topic;
-    if (emcute_reg(&t) != EMCUTE_OK) {
-        puts("error: unable to obtain topic ID");
-        return 1;
-    }
+    t.id = subscriptions[2].topic.id;
+    // printf("%s\n",t.name);
+    // int reg_res = emcute_reg(&t);
+    // if (reg_res != EMCUTE_OK) {
+    //     puts("error: unable to obtain topic ID");
+    //     switch (reg_res)
+    //     {
+    //     case EMCUTE_NOGW:
+    //         /* code */
+    //         puts("No gateway connection");
+    //         break;
+    //     case EMCUTE_OVERFLOW:
+    //         /* code */
+    //         puts("Overflow");
+    //         break;
+    //     case EMCUTE_TIMEOUT:
+    //         /* code */
+    //         puts("Timeout");
+    //         break;
+    //     default:
+    //         break;
+    //     }
+    //     return 1;
+    // }
 
     //make message
     char message[80];
-    snprintf(message,sizeof(message),"{\"humidity\":%f,\"device\":%s}",humidity,EMCUTE_ID);
+    snprintf(message,sizeof(message),"{\"humidity\":%f,\"device\":\"%s\"}",humidity,EMCUTE_ID);
 
     //publish data
     if (emcute_pub(&t, message, strlen(message), flags) != EMCUTE_OK) {
@@ -458,6 +478,11 @@ int main(void)
     char waterTopic[topSize2];
     snprintf(waterTopic,sizeof(waterTopic),"sas/%s/water",EMCUTE_ID);
     sub(waterTopic,EMCUTE_QOS_0,2);
+
+    const int topSize3 = 3+sizeof(EMCUTE_ID)+1+8+2;
+    char readingsTopic[topSize3];
+    snprintf(readingsTopic,sizeof(readingsTopic),"sas/%s/readings",EMCUTE_ID);
+    sub(readingsTopic,EMCUTE_QOS_0,0);
 
     /* start shell */
     char line_buf[SHELL_DEFAULT_BUFSIZE];

@@ -23,7 +23,7 @@ export async function query(){
             let readDay = new Date(models[i].timestamp);
             let diff = Math.floor((today-readDay)/_MS_PER_DAY)
             readings[devices[i]].push({
-                "time":diff,
+                "time":models[i].timestamp,
                 "humidity":models[i].humidity
             })
         }

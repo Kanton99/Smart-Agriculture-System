@@ -3,7 +3,6 @@ import {AWSIoTProvider} from "@aws-amplify/pubsub/lib/Providers"
 import {CONNECTION_STATE_CHANGE, ConnectionState} from '@aws-amplify/pubsub'
 import { Hub } from 'aws-amplify'
 
-let device ="device0";
 //Amplify.configure(awsmobile)
 export function iotCommSetup(){
 try{
@@ -37,6 +36,12 @@ try{
     PubSub.subscribe('sas/+/read').subscribe()
     }
 async function publish(topic){
+    let device = "device0";
+    device = prompt("Which device?","device0");
+    if(!((JSON.parse(localStorage.getItem("devices")).devices).includes(device))) {
+        alert("You have no device registered as "+device);
+        return; 
+    }
     try{
         await PubSub.publish("sas/"+device+"/"+topic,{[topic]:true});
         console.log('Message published successfully');
