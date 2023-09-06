@@ -387,12 +387,13 @@ int main(void)
         printf("Successfully initialized ADC_LINE(%u)\n", ADC_IN_USE);
     }
 
-    if(gpio_init(GPIO_LINE,GPIO_OUT) == 0){
+    if(gpio_init(GPIO_LINE,GPIO_OD) == 0){
         printf("GPIO line %u initialization succesful\n",GPIO_LINE);
     }else{
         printf("Error initializing %u GPIO line\n",GPIO_LINE);
         return 1;
     }
+    gpio_set(GPIO_LINE);
     // xtimer_ticks32_t last = xtimer_now();
     // int sample = 0;
 
@@ -416,15 +417,15 @@ int main(void)
     /*TODO response to*/
 
     /*Sub to read and water topic*/
-    const int topSize = 3+sizeof(EMCUTE_ID)+1+4+2;
-    char readTopic[topSize];
-    snprintf(readTopic,sizeof(readTopic),"sas/%s/read",EMCUTE_ID);
-    sub(readTopic,EMCUTE_QOS_0,1);
+    // const int topSize = 3+sizeof(EMCUTE_ID)+1+4+2;
+    // char readTopic[topSize];
+    // snprintf(readTopic,sizeof(readTopic),"sas/%s/read",EMCUTE_ID);
+    // sub(readTopic,EMCUTE_QOS_0,1);
 
-    const int topSize2 = 3+sizeof(EMCUTE_ID)+1+5+2;
-    char waterTopic[topSize2];
-    snprintf(readTopic,sizeof(readTopic),"sas/%s/water",EMCUTE_ID);
-    sub(waterTopic,EMCUTE_QOS_0,2);
+    // const int topSize2 = 3+sizeof(EMCUTE_ID)+1+5+2;
+    // char waterTopic[topSize2];
+    // snprintf(readTopic,sizeof(readTopic),"sas/%s/water",EMCUTE_ID);
+    // sub(waterTopic,EMCUTE_QOS_0,2);
 
     //puts("MQTT-SN example application\n");
     puts("Type 'help' to get started. Have a look at the README.md for more"
