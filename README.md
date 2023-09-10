@@ -10,6 +10,8 @@ This project is for a device that periodically samples your houseplant and water
 
 It also includes code for a webapp to see graphs of the latests readings and manual controls if needed.
 
+## Hackster blog
+https://www.hackster.io/salam1974210/iot-smart-agriculture-system-with-esp32-03b6cb
 ## Documents
 ### First Delivery
 
