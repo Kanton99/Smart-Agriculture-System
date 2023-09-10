@@ -2,6 +2,7 @@
 #define SENSOR_RANGE 1;
 double calculateMoisture(double rawval){
     double value = rawval;
+    //fix to what the moisture sensors displays
     double min_value = 1020*SENSOR_RANGE; // Minimum value (0%)
     double max_value = 2130*SENSOR_RANGE; // Maximum value (100%)
 

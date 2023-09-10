@@ -41,16 +41,16 @@ It also includes code for a webapp to see graphs of the latests readings and man
 
 This also install the RIOT submodule to compile the device code and the paho-mqttsn submodule for the gateway
 
-### Compile and install to device
+### Setup
 Go to DeviceCode
 
 ```cd Smart-Agriculture-System/DeviceCode```
 
 Set the WIFI SSID and PASSWORD values in the makefile to your wifi network name and password, or the lan where the device, broker and gateway will be connected, as long as it supports ipv6.
 
-Set at the beginning ```main.c``` the GPIO line where the pump controls will be handled
+Set at the beginning ```main.c``` the GPIO line where the pump controls will be handled and the device id.
 
-Compile and flash the board
+### Compile and flash the board
 
 ```make BOARD=<your board> BUILD_IN_DOCKER=1 all flash```
 
