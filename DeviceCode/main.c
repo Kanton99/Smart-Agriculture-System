@@ -37,8 +37,9 @@
 #define DELAY               (100LU * US_PER_MS) /*100ms*/
 #define DELAY2              (60LU * MIN_PER_HOUR) /*60min*/
 #define DELAY30             (30LU * MIN_PER_HOUR) /*30 min*/
+#define DELAY2DAYS          (2LU*MS_PER_HOUR*HOURS_PER_DAY)/*2 days*/
 
-#define GPIO_LINE           GPIO_PIN(0,20)
+#define GPIO_LINE           GPIO_PIN(0,22)
 
 
 static char stack[THREAD_STACKSIZE_DEFAULT];
@@ -385,26 +386,6 @@ static const shell_command_t shell_commands[] = {
     { NULL, NULL, NULL }
 };
 
-/*
-double calculateMoisture(double rawval){
-    double value = rawval;
-    double min_value = 1020; // Minimum value (0%)
-    double max_value = 2130; // Maximum value (100%)
-
-    // calculate the percentage using linear interpolation
-    double percentage = 100.0 * ((max_value - value) / (max_value - min_value));
-
-    // ensure the percentage is within the valid range
-    if(percentage < 0.0){
-        percentage = 0.0;
-    } else if(percentage > 100.0){
-        percentage = 100.0;
-    }
-
-    printf("Percentage: %.2f%%\n",percentage);
-    return percentage;
-}
-*/
 
 
 static void *emcute_thread(void *arg)
@@ -433,7 +414,6 @@ int main(void)
         return 1;
     }
     gpio_set(GPIO_LINE);
-    /*TODO periodic sample*/
 
 
     /*Update this section to call and publish to the topic after the wifi is connected*/
@@ -441,26 +421,6 @@ int main(void)
     xtimer_ticks32_t last = xtimer_now();
     int sample = 0;
     int curMoistPercntage = 0;
-
-    while(1){
-        sample = adc_sample(ADC_IN_USE, ADC_RES);
-        if(sample < 0){
-            printf("ADC_LINE(%u): selected resolution not applicable\n", ADC_IN_USE);
-            return -1;
-        }else{
-            printf("ADC_LINE(%u): raw value: %i\n", ADC_IN_USE, sample);
-            
-            curMoistPercntage = calculateMoisture(sample);
-            if(curMoistPercntage > 40){
-                xtimer_periodic_wakeup(&last, DELAY30);
-            }else{
-                pumpWater(GPIO_LINE, 5);
-                xtimer_periodic_wakeup(&last, DELAY30);
-            }
-        }
-        xtimer_periodic_wakeup(&last, DELAY);
-    }
-
 
     // Wait for WiFi connection
     while (esp_wifi_connect() != ESP_OK) {
@@ -505,22 +465,32 @@ int main(void)
     const int topSize = 3+sizeof(EMCUTE_ID)+1+4+2;
     char readTopic[topSize];
     snprintf(readTopic,sizeof(readTopic),"sas/%s/read",EMCUTE_ID);
-    sub(readTopic,EMCUTE_QOS_0,1);
+    if(sub(readTopic,EMCUTE_QOS_0,1)>0) return 1;
 
     const int topSize2 = 3+sizeof(EMCUTE_ID)+1+5+2;
     char waterTopic[topSize2];
     snprintf(waterTopic,sizeof(waterTopic),"sas/%s/water",EMCUTE_ID);
-    sub(waterTopic,EMCUTE_QOS_0,2);
+    if(sub(waterTopic,EMCUTE_QOS_0,2)>0) return 1;
 
     const int topSize3 = 3+sizeof(EMCUTE_ID)+1+8+2;
     char readingsTopic[topSize3];
     snprintf(readingsTopic,sizeof(readingsTopic),"sas/%s/readings",EMCUTE_ID);
-    sub(readingsTopic,EMCUTE_QOS_0,0);
+    if(sub(readingsTopic,EMCUTE_QOS_0,0)>0) return 1;
 
     /* start shell */
     char line_buf[SHELL_DEFAULT_BUFSIZE];
     shell_run(shell_commands, line_buf, SHELL_DEFAULT_BUFSIZE);
 
+    while(1){
+        float moisture = sample_moisture(ADC_IN_USE,ADC_RES);
+        pub_humidity(moisture);
+        if(moisture < 40){
+            pumpWater(GPIO_LINE, 10);
+            xtimer_periodic_wakeup(&last, DELAY30);
+            continue;
+        }
+        xtimer_periodic_wakeup(&last, DELAY);
+    }
     /* should be never reached */
     return 0;
 }
