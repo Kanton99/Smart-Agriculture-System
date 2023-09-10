@@ -488,7 +488,7 @@ int main(void)
             xtimer_periodic_wakeup(&last, DELAY30);
             continue;
         }else{
-            xtimer_periodic_wakeup(&last, DELAY);
+            xtimer_periodic_wakeup(&last, DELAY2DAYS);
         }
     }
     /* start shell */

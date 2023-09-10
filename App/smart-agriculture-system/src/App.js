@@ -20,10 +20,13 @@ function App() {
 
   return (
     <>
-    <Line options={options} data={data}></Line>
+    <div>
     <input type='button' value='Water plants' onClick={water}/>
     <input type='button' value='Read humidity' onClick={read}/>
     <input type='button' value='Register device' onClick={registerDevice}/>
+    </div>
+    <Line options={options} data={data}></Line>
+    
     </>
   );
 }
