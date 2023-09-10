@@ -34,9 +34,8 @@
 
 #define ADC_IN_USE          ADC_LINE(0)
 #define ADC_RES             ADC_RES_12BIT
-#define DELAY               (100LU * US_PER_MS) /*100ms*/
-#define DELAY2              (60LU * MIN_PER_HOUR) /*60min*/
-#define DELAY30             (30LU * MIN_PER_HOUR) /*30 min*/
+#define DELAY               (10LU * US_PER_SEC) /*10s*/
+#define DELAY30             (30LU * US_PER_SEC * SEC_PER_MIN) /*30 min*/
 #define DELAY2DAYS          (2LU*MS_PER_HOUR*HOURS_PER_DAY)/*2 days*/
 
 #define GPIO_LINE           GPIO_PIN(0,22)
@@ -419,8 +418,8 @@ int main(void)
     /*Update this section to call and publish to the topic after the wifi is connected*/
     // section to periodically check the soil moisture
     xtimer_ticks32_t last = xtimer_now();
-    int sample = 0;
-    int curMoistPercntage = 0;
+    // int sample = 0;
+    // int curMoistPercntage = 0;
 
     // Wait for WiFi connection
     while (esp_wifi_connect() != ESP_OK) {
@@ -477,20 +476,25 @@ int main(void)
     snprintf(readingsTopic,sizeof(readingsTopic),"sas/%s/readings",EMCUTE_ID);
     if(sub(readingsTopic,EMCUTE_QOS_0,0)>0) return 1;
 
+    puts("all topics have been subscribed to\n");
+    
+    while(1){
+        float moisture = sample_moisture(ADC_IN_USE,ADC_RES);
+        //printf("moisture sampled: %f \n",moisture);
+        pub_humidity(moisture);
+        if(moisture < 40){
+            puts("pumping water");
+            pumpWater(GPIO_LINE, 7);
+            xtimer_periodic_wakeup(&last, DELAY30);
+            continue;
+        }else{
+            xtimer_periodic_wakeup(&last, DELAY);
+        }
+    }
     /* start shell */
     char line_buf[SHELL_DEFAULT_BUFSIZE];
     shell_run(shell_commands, line_buf, SHELL_DEFAULT_BUFSIZE);
 
-    while(1){
-        float moisture = sample_moisture(ADC_IN_USE,ADC_RES);
-        pub_humidity(moisture);
-        if(moisture < 40){
-            pumpWater(GPIO_LINE, 10);
-            xtimer_periodic_wakeup(&last, DELAY30);
-            continue;
-        }
-        xtimer_periodic_wakeup(&last, DELAY);
-    }
     /* should be never reached */
     return 0;
 }

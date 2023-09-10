@@ -1,9 +1,9 @@
 #include "humidity_sens.h"
-
+#define SENSOR_RANGE 1;
 double calculateMoisture(double rawval){
     double value = rawval;
-    double min_value = 1020; // Minimum value (0%)
-    double max_value = 2130; // Maximum value (100%)
+    double min_value = 1020*SENSOR_RANGE; // Minimum value (0%)
+    double max_value = 2130*SENSOR_RANGE; // Maximum value (100%)
 
     //correction to make it work on Anton sensor
     // double min_value = 1020/2; // Minimum value (0%)
@@ -29,7 +29,7 @@ double sample_moisture(adc_t line, adc_res_t res){
         printf("ADC_LINE(%u): selected resolution not applicable\n", line);
         return -1;
     }else{
-        printf("ADC_LINE(%u): raw value: %i\n", line, sample);
+        printf("ADC_LINE(%u): raw value: %li\n", line, sample);
         return calculateMoisture(sample);
     }
 }

@@ -5,7 +5,6 @@ import {Amplify} from 'aws-amplify'
 
 Amplify.configure(awsmobile)
 
-const _MS_PER_DAY = 1000*60*60*24;
 export let devices = [];
 try{
     devices = JSON.parse(localStorage.getItem("devices")).devices
@@ -16,16 +15,12 @@ export async function query(){
     devices = JSON.parse(localStorage.getItem("devices")).devices
     let readings = {}
     for( let i = 0;i<devices.length;i++){
-        const models = await DataStore.query(Reading,(c)=>c.device.eq(devices[i]),{sort:(s)=>s.timestamp("ASCENDING")});
-        console.log(models);
+        const models = await DataStore.query(Reading,(c)=>c.device.eq(devices[i]),{sort:(s)=>s.timestamp("DESCENDING")});
+        //console.log(models);
         readings[devices[i]] = new Array()
         for (let j = 0;j<models.length && j<30;j++){
-            let today = Date.now();
-            let readDay = new Date(models[j].timestamp);
-            let diff = Math.floor((today-readDay)/_MS_PER_DAY)
-            readings[devices[i]].push({
+            readings[devices[i]].unshift({
                 "time":models[j].timestamp,
-                // "time":diff,
                 "humidity":models[j].humidity
             })
         }
