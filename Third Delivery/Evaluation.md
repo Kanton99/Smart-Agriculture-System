@@ -11,9 +11,9 @@ The system will be plugged in the power outlet of the users house, so power cons
 ### Expected power Consumption of individual modules
 |Component      |idle consumption|max consuption|
 |---------------|----------------|------------- |
-|LoRa Wifi      |50mA            |TBD           |
-|Moisture Sensor|<5mA            |TBD           |
-|Water pump     |<5mA            |TBD           |
+|LoRa Wifi      |80mA            |200mA           |
+|Moisture Sensor|<5mA            |5.5mA          |
+|Water pump     |<5mA            |65mA          |
 
 
 <!-- # Useful Links (to delete before delivary)

@@ -21,7 +21,7 @@ It is the highest level client side component of the project. The Dashboard is a
 
 ### Updated System Architecture
 
-![sys-arch-iot](./imgs/System%20architecture.png)
+![sys-arch-iot](./imgs/IoT%20design%20-%20Page%201.png)
 
 ### Sensors
 All the sensors are chosen accordingly to the suitability of the project.
