@@ -33,10 +33,12 @@
 #define TOPIC_MAXLEN        (64U)
 
 #define ADC_IN_USE          ADC_LINE(0)
-#define ADC_RES             ADC_RES_10BIT
+#define ADC_RES             ADC_RES_12BIT
 #define DELAY               (100LU * US_PER_MS) /*100ms*/
+#define DELAY2              (60LU * MIN_PER_HOUR) /*60min*/
+#define DELAY30             (30LU * MIN_PER_HOUR) /*30 min*/
 
-#define GPIO_LINE           GPIO_PIN(0,22)
+#define GPIO_LINE           GPIO_PIN(0,20)
 
 
 static char stack[THREAD_STACKSIZE_DEFAULT];
@@ -433,6 +435,33 @@ int main(void)
     gpio_set(GPIO_LINE);
     /*TODO periodic sample*/
 
+
+    /*Update this section to call and publish to the topic after the wifi is connected*/
+    // section to periodically check the soil moisture
+    xtimer_ticks32_t last = xtimer_now();
+    int sample = 0;
+    int curMoistPercntage = 0;
+
+    while(1){
+        sample = adc_sample(ADC_IN_USE, ADC_RES);
+        if(sample < 0){
+            printf("ADC_LINE(%u): selected resolution not applicable\n", ADC_IN_USE);
+            return -1;
+        }else{
+            printf("ADC_LINE(%u): raw value: %i\n", ADC_IN_USE, sample);
+            
+            curMoistPercntage = calculateMoisture(sample);
+            if(curMoistPercntage > 40){
+                xtimer_periodic_wakeup(&last, DELAY30);
+            }else{
+                pumpWater(GPIO_LINE, 5);
+                xtimer_periodic_wakeup(&last, DELAY30);
+            }
+        }
+        xtimer_periodic_wakeup(&last, DELAY);
+    }
+
+
     // Wait for WiFi connection
     while (esp_wifi_connect() != ESP_OK) {
         xtimer_sleep(1); // Sleep for 1 second before retrying
@@ -468,6 +497,10 @@ int main(void)
     xtimer_sleep(1);
     //connect to broker
     con("fec0:affe::1",10000);
+
+    
+
+
     /*Sub to read and water topic*/
     const int topSize = 3+sizeof(EMCUTE_ID)+1+4+2;
     char readTopic[topSize];
