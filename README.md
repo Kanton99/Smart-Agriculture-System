@@ -12,6 +12,8 @@ It also includes code for a webapp to see graphs of the latests readings and man
 
 ## Hackster blog
 https://www.hackster.io/salam1974210/iot-smart-agriculture-system-with-esp32-03b6cb
+
+[Presentation video](https://youtu.be/3S1RmD-O0Z0)
 ## Documents
 ### First Delivery
 

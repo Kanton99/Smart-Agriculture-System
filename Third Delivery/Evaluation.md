@@ -1,11 +1,7 @@
 # Evaluation
 ## Moisture readings
 The moisture readings will be eavluated against samples with known leves of moistures to measure the accuracy of the sensor.
-|Expected accuracy|Measured accuracy|
-|--------|------------|
-|95% |92.3%|
 
-This tells us that the sensor if quite accurate in its readings
 ## Actuator
 The water pump will be tested on the flow rate it can achieve, so that the device can control how much water is giving to the plants with the best accuracy possible. 
 |Expected flow|Actual Flow|
