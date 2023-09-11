@@ -4,6 +4,8 @@ The moisture readings will be eavluated against samples with known leves of mois
 |Expected accuracy|Measured accuracy|
 |--------|------------|
 |95% |92.3%|
+
+This tells us that the sensor if quite accurate in its readings
 ## Actuator
 The water pump will be tested on the flow rate it can achieve, so that the device can control how much water is giving to the plants with the best accuracy possible. 
 |Expected flow|Actual Flow|
@@ -17,9 +19,12 @@ The system will be plugged in the power outlet of the users house, so power cons
 ### Expected power Consumption of individual modules
 |Component      |idle consumption|max consuption|
 |---------------|----------------|------------- |
-|LoRa Wifi      |80mA            |200mA           |
-|Moisture Sensor|<5mA            |5.5mA          |
-|Water pump     |<5mA            |65mA          |
+|LoRa Wifi      |<5mA           |51mA           |
+|Moisture Sensor|<5mA            |7.57mA          |
+|Water pump     |<5mA            |63.2mA         |
+
+Assuming that in average a plant needs water once a week and to reach the desired moisture it needs 3 watering cycles, the duty cycle of the device is of 0.0005%. Meaning that if given a 1000mA/h battery it would last about 100 hours.
+On the water consumption side of things, the pumps uses around 0.023 L/s when used, so with the previous assumption a 1L water container would last about 100 days.
 
 
 <!-- # Useful Links (to delete before delivary)
