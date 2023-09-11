@@ -1,8 +1,14 @@
 # Evaluation
 ## Moisture readings
 The moisture readings will be eavluated against samples with known leves of moistures to measure the accuracy of the sensor.
+|Expected accuracy|Measured accuracy|
+|--------|------------|
+|95% |92.3%|
 ## Actuator
 The water pump will be tested on the flow rate it can achieve, so that the device can control how much water is giving to the plants with the best accuracy possible. 
+|Expected flow|Actual Flow|
+|------------|---|
+|100L/h|86L/h|
 ## Network
 The devince will be used in potted plants, so it can connect to the local WiFi
 
