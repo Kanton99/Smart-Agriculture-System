@@ -31,6 +31,8 @@ For the puspose of evaluation we are considering four different acceptable level
 
 The main purpose of this classification is to get an optimal moisture level for the plants to sustain without watering atleast for 2 days.
 
+Soil moisture guide reference link [Guide](https://connectedcrops.ca/the-ultimate-guide-to-soil-moisture/)
+
 ## Actuator
 The water pump will be tested on the flow rate it can achieve, so that the device can control how much water is giving to the plants with the best accuracy possible. 
 |Expected flow|Actual Flow|
