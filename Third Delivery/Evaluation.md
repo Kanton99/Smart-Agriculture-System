@@ -23,5 +23,3 @@ Assuming that in average a plant needs water once a week and to reach the desire
 On the water consumption side of things, the pumps uses around 0.023 L/s when used, so with the previous assumption a 1L water container would last about 100 days.
 
 
-<!-- # Useful Links (to delete before delivary)
-[Soil Moistures](https://eos.com/blog/soil-moisture/#:~:text=Ultimately%2C%20the%20soil%20moisture%20effect,between%2020%25%20and%2060%25.) -->
